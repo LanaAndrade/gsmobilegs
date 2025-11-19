@@ -11,32 +11,10 @@ Notifications.setNotificationHandler({
 export async function schedulePushNotification() {
   await Notifications.scheduleNotificationAsync({
     content: {
-      title: "Hora de estudar! 📚",
-      body: 'Não se esqueça de dedicar um tempinho para seus cursos hoje.',
-      data: { data: 'goes here' },
+      title: 'Hora de estudar!',
+      body: 'Não se esqueça de revisar seu plano de estudos hoje.',
+      sound: 'default',
     },
-    trigger: { 
-      hour: 18, 
-      minute: 0,
-      repeats: true 
-    },
+    trigger: { seconds: 5 },
   });
-}
-
-export async function registerForPushNotificationsAsync() {
-  const { status: existingStatus } = await Notifications.getPermissionsAsync();
-  let finalStatus = existingStatus;
-  
-  if (existingStatus !== 'granted') {
-    const { status } = await Notifications.requestPermissionsAsync();
-    finalStatus = status;
-  }
-  
-  if (finalStatus !== 'granted') {
-    alert('Falha ao obter permissão para notificações!');
-    return;
-  }
-
-  // Agendar notificação
-  await schedulePushNotification();
 }

@@ -1,13 +1,20 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Alert, StyleSheet, Image } from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  Alert,
+  StyleSheet,
+  Image,
+} from 'react-native';
 import { theme } from '../theme';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-// Simulação de base de dados de usuários
 const USERS_DB = [
   { email: 'lana@email.com', password: '123456', name: 'Lana Andrade' },
   { email: 'admin@careermatch.com', password: 'admin123', name: 'Administrador' },
-  { email: 'teste@email.com', password: 'teste123', name: 'Usuário Teste' }
+  { email: 'teste@email.com', password: 'teste123', name: 'Usuário Teste' },
 ];
 
 export default function LoginScreen({ navigation }: any) {
@@ -15,99 +22,108 @@ export default function LoginScreen({ navigation }: any) {
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const validateEmail = (email: string) => {
+  function validateEmail(value: string) {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test(email);
-  };
+    return re.test(value);
+  }
 
-  const validatePassword = (password: string) => {
-    return password.length >= 6;
-  };
+  function validatePassword(value: string) {
+    return value.length >= 6;
+  }
 
   const onLogin = async () => {
     if (!email || !password) {
-      return Alert.alert('Erro', 'Preencha email e senha.');
+      Alert.alert('Erro', 'Preencha email e senha.');
+      return;
     }
 
     if (!validateEmail(email)) {
-      return Alert.alert('Erro', 'Digite um email válido.');
+      Alert.alert('Erro', 'Digite um email válido.');
+      return;
     }
 
     if (!validatePassword(password)) {
-      return Alert.alert('Erro', 'A senha deve ter pelo menos 6 caracteres.');
+      Alert.alert('Erro', 'A senha deve ter pelo menos 6 caracteres.');
+      return;
     }
 
     setIsLoading(true);
 
-    // Simulação de autenticação
     setTimeout(async () => {
-      const user = USERS_DB.find(u => u.email === email && u.password === password);
-      
+      const user = USERS_DB.find(
+        (u) => u.email === email && u.password === password,
+      );
+
       if (user) {
-        // Salvar dados do usuário
         await AsyncStorage.setItem('userToken', 'authenticated');
-        await AsyncStorage.setItem('userData', JSON.stringify({
-          email: user.email,
-          name: user.name,
-          loginDate: new Date().toISOString()
-        }));
-        
-        Alert.alert('Sucesso', `Bem-vinda, ${user.name}!`);
+        await AsyncStorage.setItem(
+          'userData',
+          JSON.stringify({
+            email: user.email,
+            name: user.name,
+            loginDate: new Date().toISOString(),
+          }),
+        );
+
+        Alert.alert('Sucesso', `Bem-vinda, ${user.name}.`);
         navigation.replace('Main');
       } else {
         Alert.alert('Erro', 'Email ou senha incorretos.');
       }
+
       setIsLoading(false);
-    }, 1500);
+    }, 1000);
   };
 
   const onForgotPassword = () => {
     Alert.alert(
-      'Recuperar Senha',
-      'Digite seu email para receber instruções de recuperação:',
+      'Recuperar senha',
+      'Digite seu email para receber instruções de recuperação.',
       [
         { text: 'Cancelar', style: 'cancel' },
         {
           text: 'Enviar',
-          onPress: () => Alert.alert('Sucesso', 'Email de recuperação enviado!')
-        }
-      ]
+          onPress: () => Alert.alert('Sucesso', 'Email de recuperação enviado.'),
+        },
+      ],
     );
   };
 
   return (
     <View style={styles.container}>
       <View style={styles.card}>
-        <Image 
-          source={{ uri: 'https://via.placeholder.com/96' }} 
-          style={{ width: 96, height: 96, marginBottom: 16 }} 
+        <Image
+          source={{ uri: 'https://via.placeholder.com/96' }}
+          style={styles.logo}
         />
         <Text style={styles.title}>CareerMatch+</Text>
-        <Text style={styles.subtitle}>Descubra onde você pode brilhar na sua carreira!</Text>
+        <Text style={styles.subtitle}>
+          Faça login para continuar sua jornada profissional.
+        </Text>
 
         <TextInput
           style={styles.input}
           placeholder="Email"
-          placeholderTextColor="#999"
+          placeholderTextColor="#9CA3AF"
           value={email}
           onChangeText={setEmail}
           keyboardType="email-address"
           autoCapitalize="none"
           autoComplete="email"
         />
-        
+
         <TextInput
           style={styles.input}
           placeholder="Senha"
-          placeholderTextColor="#999"
+          placeholderTextColor="#9CA3AF"
           value={password}
           onChangeText={setPassword}
           secureTextEntry
           autoComplete="password"
         />
 
-        <TouchableOpacity 
-          style={[styles.button, isLoading && styles.buttonDisabled]} 
+        <TouchableOpacity
+          style={[styles.button, isLoading && styles.buttonDisabled]}
           onPress={onLogin}
           disabled={isLoading}
         >
@@ -121,7 +137,7 @@ export default function LoginScreen({ navigation }: any) {
         </TouchableOpacity>
 
         <View style={styles.demoAccounts}>
-          <Text style={styles.demoTitle}>Contas de Demonstração:</Text>
+          <Text style={styles.demoTitle}>Contas de demonstração</Text>
           <Text style={styles.demoAccount}>lana@email.com / 123456</Text>
           <Text style={styles.demoAccount}>admin@careermatch.com / admin123</Text>
         </View>
@@ -131,83 +147,89 @@ export default function LoginScreen({ navigation }: any) {
 }
 
 const styles = StyleSheet.create({
-  container: { 
-    flex: 1, 
-    backgroundColor: theme.colors.background, 
-    alignItems: 'center', 
-    justifyContent: 'center', 
-    padding: 16 
+  container: {
+    flex: 1,
+    backgroundColor: theme.colors.background,
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 16,
   },
-  card: { 
-    width: '100%', 
-    maxWidth: 420, 
-    backgroundColor: theme.colors.card, 
-    borderRadius: 16, 
-    padding: 20, 
-    elevation: 4, 
-    alignItems: 'center' 
+  card: {
+    width: '100%',
+    maxWidth: 420,
+    backgroundColor: theme.colors.card,
+    borderRadius: 16,
+    padding: 20,
+    alignItems: 'center',
   },
-  title: { 
-    fontSize: 28, 
-    fontWeight: '700', 
-    color: theme.colors.text 
+  logo: {
+    width: 96,
+    height: 96,
+    marginBottom: 16,
+    borderRadius: 48,
+    backgroundColor: theme.colors.muted,
   },
-  subtitle: { 
-    fontSize: 14, 
-    color: '#556', 
-    textAlign: 'center', 
-    marginVertical: 8 
+  title: {
+    fontSize: 28,
+    fontWeight: '700',
+    color: theme.colors.cardText,
   },
-  input: { 
-    width: '100%', 
-    backgroundColor: '#fff', 
-    borderColor: theme.colors.muted, 
-    borderWidth: 1, 
-    borderRadius: 12, 
-    padding: 12, 
+  subtitle: {
+    fontSize: 14,
+    color: '#4B5563',
+    textAlign: 'center',
+    marginVertical: 8,
+  },
+  input: {
+    width: '100%',
+    backgroundColor: '#FFFFFF',
+    borderColor: '#D1D5DB',
+    borderWidth: 1,
+    borderRadius: 12,
+    padding: 12,
     marginTop: 12,
-    fontSize: 16
+    fontSize: 16,
+    color: theme.colors.cardText,
   },
-  button: { 
-    width: '100%', 
-    backgroundColor: theme.colors.action, 
-    padding: 14, 
-    borderRadius: 12, 
-    marginTop: 16, 
-    alignItems: 'center' 
+  button: {
+    width: '100%',
+    backgroundColor: theme.colors.action,
+    padding: 14,
+    borderRadius: 12,
+    marginTop: 16,
+    alignItems: 'center',
   },
   buttonDisabled: {
-    backgroundColor: '#CCCCCC',
-    opacity: 0.6
+    opacity: 0.6,
   },
-  buttonText: { 
-    color: '#fff', 
+  buttonText: {
+    color: '#020617',
     fontWeight: '700',
-    fontSize: 16
+    fontSize: 16,
   },
   forgotButton: {
     marginTop: 16,
-    padding: 8
+    padding: 8,
   },
   forgotText: {
     color: theme.colors.primary,
-    fontSize: 14
+    fontSize: 14,
   },
   demoAccounts: {
     marginTop: 20,
     padding: 12,
-    backgroundColor: theme.colors.muted,
+    backgroundColor: theme.colors.card,
     borderRadius: 8,
-    width: '100%'
+    width: '100%',
   },
   demoTitle: {
     fontWeight: '700',
-    color: theme.colors.text,
-    marginBottom: 4
+    color: theme.colors.cardText,
+    marginBottom: 4,
   },
   demoAccount: {
     fontSize: 12,
-    color: '#666',
-    fontFamily: 'monospace'
-  }
+    color: '#4B5563',
+    fontFamily: 'monospace',
+  },
 });

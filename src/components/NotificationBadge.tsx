@@ -2,30 +2,36 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { theme } from '../theme';
 
-interface NotificationBadgeProps {
+type NotificationBadgeProps = {
   count: number;
   size?: number;
   color?: string;
-}
+};
 
-export default function NotificationBadge({ 
-  count, 
-  size = 18, 
-  color = theme.colors.danger 
-}: NotificationBadgeProps) {
-  if (count === 0) return null;
+export default function NotificationBadge(props: NotificationBadgeProps) {
+  const { count, size = 18, color = theme.colors.danger } = props;
 
-  const displayCount = count > 99 ? '99+' : count.toString();
+  if (!count || count === 0) {
+    return null;
+  }
+
+  const text = count > 99 ? '99+' : count.toString();
+  const width = Math.max(size, size * 0.8 * text.length);
 
   return (
-    <View style={[styles.badge, { 
-      width: Math.max(size, size * 0.8 * displayCount.length),
-      height: size,
-      backgroundColor: color,
-      borderRadius: size / 2
-    }]}>
+    <View
+      style={[
+        styles.badge,
+        {
+          width: width,
+          height: size,
+          borderRadius: size / 2,
+          backgroundColor: color,
+        },
+      ]}
+    >
       <Text style={[styles.badgeText, { fontSize: size * 0.6 }]}>
-        {displayCount}
+        {text}
       </Text>
     </View>
   );
@@ -33,13 +39,13 @@ export default function NotificationBadge({
 
 const styles = StyleSheet.create({
   badge: {
-    alignItems: 'center',
-    justifyContent: 'center',
     position: 'absolute',
     top: -5,
     right: -5,
     minWidth: 18,
     minHeight: 18,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   badgeText: {
     color: '#fff',

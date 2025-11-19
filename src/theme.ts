@@ -1,15 +1,20 @@
 export const theme = {
   colors: {
-    primary: '#4B7BEC',     // azul moderno
-    secondary: '#FFC542',   // amarelo energia
-    background: '#F5F7FA',  // cinza claro
-    text: '#1E272E',
-    action: '#20BF6B',      // botões positivos
+    background: '#050814',
+    text: '#F9FAFB',
     card: '#FFFFFF',
-    muted: '#E5E9F2',
-    danger: '#E74C3C',      // vermelho para erros
-    warning: '#FF9800',     // laranja para avisos
-    success: '#2E7D32',     // verde para sucesso
-    info: '#2196F3'         // azul para informações
-  }
+    cardText: '#111827',
+    primary: '#8300DD',
+    secondary: '#F97316',
+    action: '#00F28A',
+    muted: '#141826',
+    danger: '#FF4B5C',
+    warning: '#FFB020',
+    success: '#22C55E',
+    info: '#38BDF8',
+  },
+  gradient: {
+    purpleStart: '#6E00B3',
+    purpleEnd: '#9D00FF',
+  },
 };

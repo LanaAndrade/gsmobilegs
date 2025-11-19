@@ -2,19 +2,20 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { theme } from '../theme';
 
-interface NotificationBadgeProps {
+type Props = {
   count: number;
-  size?: number;
-}
+};
 
-export default function NotificationBadge({ count, size = 18 }: NotificationBadgeProps) {
-  if (count === 0) return null;
+export default function NotificationBadge({ count }: Props) {
+  if (!count) {
+    return null;
+  }
+
+  const label = count > 9 ? '9+' : String(count);
 
   return (
-    <View style={[styles.badge, { width: size, height: size }]}>
-      <Text style={[styles.badgeText, { fontSize: size * 0.6 }]}>
-        {count > 99 ? '99+' : count}
-      </Text>
+    <View style={styles.badge}>
+      <Text style={styles.text}>{label}</Text>
     </View>
   );
 }
@@ -22,18 +23,16 @@ export default function NotificationBadge({ count, size = 18 }: NotificationBadg
 const styles = StyleSheet.create({
   badge: {
     backgroundColor: theme.colors.danger,
-    borderRadius: 50,
-    alignItems: 'center',
-    justifyContent: 'center',
-    position: 'absolute',
-    top: -5,
-    right: -5,
+    borderRadius: 12,
     minWidth: 18,
     minHeight: 18,
+    paddingHorizontal: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  badgeText: {
+  text: {
     color: '#fff',
+    fontSize: 11,
     fontWeight: '700',
-    textAlign: 'center',
   },
 });

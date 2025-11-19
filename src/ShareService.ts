@@ -1,13 +1,23 @@
 import * as Sharing from 'expo-sharing';
+import * as FileSystem from 'expo-file-system';
 
-export async function shareAchievement(achievement: string) {
-  const message = `Acabei de conquistar: ${achievement} no CareerMatch+! 🎉`;
-  
-  // Em uma versão futura, podemos gerar uma imagem para compartilhar
-  // Por enquanto, compartilhamos apenas texto
-  if (await Sharing.isAvailableAsync()) {
-    await Sharing.shareAsync(message);
-  } else {
-    alert('Compartilhamento não disponível neste dispositivo');
+export async function shareTextAsFile(filename: string, content: string) {
+  try {
+    const fileUri = FileSystem.cacheDirectory + filename;
+
+    await FileSystem.writeAsStringAsync(fileUri, content, {
+      encoding: FileSystem.EncodingType.UTF8,
+    });
+
+    const isAvailable = await Sharing.isAvailableAsync();
+
+    if (!isAvailable) {
+      console.log('Compartilhamento não está disponível neste dispositivo.');
+      return;
+    }
+
+    await Sharing.shareAsync(fileUri);
+  } catch (error) {
+    console.error('Erro ao compartilhar arquivo:', error);
   }
 }
