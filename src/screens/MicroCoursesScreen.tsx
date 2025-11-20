@@ -8,7 +8,6 @@ import {
   Alert,
 } from 'react-native';
 import { theme } from '../theme';
-import NotificationService from '../services/NotificationService';
 
 type Course = {
   id: string;
@@ -33,12 +32,6 @@ export default function MicroCoursesScreen({ navigation }: any) {
 
     const course = courses.find((c) => c.id === courseId);
     if (course) {
-      NotificationService.addNotification({
-        title: 'Curso concluído',
-        message: `Você completou o curso "${course.title}" e ganhou ${course.xp} XP.`,
-        type: 'success',
-      });
-
       Alert.alert(
         'Concluído',
         `Você completou o curso e ganhou ${course.xp} XP.`,

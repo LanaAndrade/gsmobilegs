@@ -32,6 +32,8 @@ export default function LoginScreen({ navigation }: any) {
   }
 
   const onLogin = async () => {
+    console.log('🚀 onLogin chamado com:', { email, password });
+
     if (!email || !password) {
       Alert.alert('Erro', 'Preencha email e senha.');
       return;
@@ -49,30 +51,43 @@ export default function LoginScreen({ navigation }: any) {
 
     setIsLoading(true);
 
+    // se quiser, tira esse setTimeout pra testar mais direto
     setTimeout(async () => {
       const user = USERS_DB.find(
         (u) => u.email === email && u.password === password,
       );
 
-      if (user) {
-        await AsyncStorage.setItem('userToken', 'authenticated');
-        await AsyncStorage.setItem(
-          'userData',
-          JSON.stringify({
-            email: user.email,
-            name: user.name,
-            loginDate: new Date().toISOString(),
-          }),
-        );
+      console.log('🔎 Usuário encontrado?', user);
 
-        Alert.alert('Sucesso', `Bem-vinda, ${user.name}.`);
-        navigation.replace('Main');
+      if (user) {
+        try {
+          await AsyncStorage.setItem('userToken', 'authenticated');
+          await AsyncStorage.setItem(
+            'userData',
+            JSON.stringify({
+              email: user.email,
+              name: user.name,
+              loginDate: new Date().toISOString(),
+            }),
+          );
+
+          console.log('✅ Salvou token, indo pra Main...');
+
+          // reset pra limpar o histórico e ir pra Main
+          navigation.reset({
+            index: 0,
+            routes: [{ name: 'Main' }],
+          });
+        } catch (error) {
+          console.log('Erro ao salvar no AsyncStorage:', error);
+          Alert.alert('Erro', 'Não foi possível salvar os dados do login.');
+        }
       } else {
         Alert.alert('Erro', 'Email ou senha incorretos.');
       }
 
       setIsLoading(false);
-    }, 1000);
+    }, 500);
   };
 
   const onForgotPassword = () => {
