@@ -6,15 +6,15 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 
-import LoginScreen from '../screens/LoginScreen';
-import HomeScreen from '../screens/HomeScreen';
-import ProfileScreen from '../screens/ProfileScreen';
-import TestScreen from '../screens/TestScreen';
-import ValidateProfileScreen from '../screens/ValidateProfileScreen';
-import AppObjectiveScreen from '../screens/AppObjectiveScreen';
-import ProgressScreen from '../screens/ProgressScreen';
-import MicroCoursesScreen from '../screens/MicroCoursesScreen';
-import RecommendationsScreen from '../screens/RecommendationsScreen';
+import Login from '../screens/Login';
+import Home from '../screens/Home';
+import Profile from '../screens/Profile';
+import Quiz from '../screens/Quiz';
+import ValidateProfile from '../screens/ValidateProfile';
+import About from '../screens/About';
+import Progress from '../screens/Progress';
+import Courses from '../screens/Courses';
+import Recs from '../screens/Recs';
 import SplashScreen from '../screens/SplashScreen';
 import { theme } from '../theme';
 
@@ -26,7 +26,7 @@ function getTabIconName(routeName: string) {
   if (routeName === 'Home') return 'home';
   if (routeName === 'Perfil') return 'person';
   if (routeName === 'Teste') return 'list';
-  if (routeName === 'Recomendações') return 'sparkles';
+  if (routeName === 'Recomendacoes') return 'sparkles';
   if (routeName === 'Microcursos') return 'game-controller';
   return 'ellipse';
 }
@@ -48,11 +48,11 @@ function HomeTabs() {
         },
       })}
     >
-      <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Perfil" component={ProfileScreen} />
-      <Tab.Screen name="Teste" component={TestScreen} />
-      <Tab.Screen name="Recomendações" component={RecommendationsScreen} />
-      <Tab.Screen name="Microcursos" component={MicroCoursesScreen} />
+      <Tab.Screen name="Home" component={Home} />
+      <Tab.Screen name="Perfil" component={Profile} />
+      <Tab.Screen name="Teste" component={Quiz} />
+      <Tab.Screen name="Recomendacoes" component={Recs} />
+      <Tab.Screen name="Microcursos" component={Courses} />
     </Tab.Navigator>
   );
 }
@@ -60,10 +60,10 @@ function HomeTabs() {
 function MainDrawer() {
   return (
     <Drawer.Navigator
-      initialRouteName="Home"
+      initialRouteName="HomeTabs"
       screenOptions={{
         headerShown: true,
-        headerTitle: 'Nexus Career',
+        headerTitle: 'SkillUpPlus2030+',
         headerTitleAlign: 'center',
         headerTintColor: '#020617',
         headerBackground: () => (
@@ -81,9 +81,10 @@ function MainDrawer() {
       }}
     >
       <Drawer.Screen
-        name="Home"
+        name="HomeTabs"
         component={HomeTabs}
         options={{
+          drawerLabel: 'Home',
           drawerIcon: ({ color, size }) => (
             <Ionicons name="home" size={size} color={color} />
           ),
@@ -91,7 +92,7 @@ function MainDrawer() {
       />
       <Drawer.Screen
         name="Perfil"
-        component={ProfileScreen}
+        component={Profile}
         options={{
           drawerIcon: ({ color, size }) => (
             <Ionicons name="person" size={size} color={color} />
@@ -100,7 +101,7 @@ function MainDrawer() {
       />
       <Drawer.Screen
         name="Teste de Carreira"
-        component={TestScreen}
+        component={Quiz}
         options={{
           drawerIcon: ({ color, size }) => (
             <Ionicons name="list" size={size} color={color} />
@@ -109,7 +110,7 @@ function MainDrawer() {
       />
       <Drawer.Screen
         name="Microcursos"
-        component={MicroCoursesScreen}
+        component={Courses}
         options={{
           drawerIcon: ({ color, size }) => (
             <Ionicons name="game-controller" size={size} color={color} />
@@ -118,7 +119,7 @@ function MainDrawer() {
       />
       <Drawer.Screen
         name="Progresso"
-        component={ProgressScreen}
+        component={Progress}
         options={{
           drawerIcon: ({ color, size }) => (
             <Ionicons name="trending-up" size={size} color={color} />
@@ -127,7 +128,7 @@ function MainDrawer() {
       />
       <Drawer.Screen
         name="Sobre o App"
-        component={AppObjectiveScreen}
+        component={About}
         options={{
           drawerIcon: ({ color, size }) => (
             <Ionicons name="information-circle" size={size} color={color} />
@@ -157,7 +158,7 @@ export default function RootNavigation() {
         initialRouteName="Splash"
         screenOptions={{
           headerShown: true,
-          headerTitle: 'Nexus Career',
+          headerTitle: 'SkillUpPlus2030+',
           headerTitleAlign: 'center',
           headerTintColor: '#020617',
           headerBackground: () => (
@@ -173,13 +174,13 @@ export default function RootNavigation() {
           component={SplashScreen}
           options={{ headerShown: false }}
         />
-        <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen name="Login" component={Login} />
         <Stack.Screen
           name="Main"
           component={MainDrawer}
           options={{ headerShown: false }}
         />
-        <Stack.Screen name="ValidateProfile" component={ValidateProfileScreen} />
+        <Stack.Screen name="ValidateProfile" component={ValidateProfile} />
       </Stack.Navigator>
     </NavigationContainer>
   );

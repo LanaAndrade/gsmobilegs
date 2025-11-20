@@ -14,7 +14,7 @@ type ProgressItem = {
   value: number;
 };
 
-export default function ProgressScreen({ navigation }: any) {
+export default function Progress({ navigation }: any) {
   const [progress] = useState<ProgressItem[]>([
     { id: '1', title: 'Trilha IA e automação', value: 0.8 },
     { id: '2', title: 'Sustentabilidade e inovação', value: 0.5 },
@@ -22,7 +22,7 @@ export default function ProgressScreen({ navigation }: any) {
   ]);
 
   function goToRecommendations() {
-    navigation.navigate('Recomendações');
+    navigation.navigate('Home', { screen: 'Recomendacoes' })
   }
 
   const renderItem = ({ item }: { item: ProgressItem }) => (

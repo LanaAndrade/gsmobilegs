@@ -92,7 +92,7 @@ function validateProfile(draft: Draft) {
   return { ok, errors, normalized };
 }
 
-export default function ValidateProfileScreen() {
+export default function ValidateProfile() {
   const navigation = useNavigation();
   const route =
     useRoute<RouteProp<Record<string, { draft?: Draft }>, string>>();

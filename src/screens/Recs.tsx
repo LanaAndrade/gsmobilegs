@@ -3,9 +3,44 @@ import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-nati
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { theme } from '../theme';
 
-export default function RecommendationsScreen({ navigation }: any) {
+const COURSE_RECOMMENDATIONS: Record<string, string[]> = {
+  'Engenharia de Software': [
+    'Git e GitHub em 30 min',
+    'Lógica de Programação',
+    'Ciclo CI/CD em 15 minutos',
+    'Introdução ao JavaScript',
+    'APIs para Iniciantes',
+  ],
+  'UX/UI Design': [
+    'Fundamentos de UX Design',
+    'UI para iniciantes: Tipografia',
+    'Criando Wireframes Rápidos',
+    'Comunicação Empática',
+  ],
+  'Data Science': [
+    'Fundamentos de Machine Learning',
+    'Pensamento Analítico para Dados',
+    'Introdução à IA Generativa',
+    'Lógica de Programação',
+  ],
+  'Gestão de Projetos': [
+    'Introdução à Gestão de Projetos',
+    'Métodos Ágeis e Scrum',
+    'Comunicação Empática',
+    'Resolução de Problemas',
+  ],
+  'Análise de Sistemas': [
+    'Lógica de Programação',
+    'Pensamento Analítico para Dados',
+    'Git e GitHub em 30 min',
+    'APIs para Iniciantes',
+  ],
+};
+
+export default function Recs({ navigation }: any) {
   const [career, setCareer] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [recommended, setRecommended] = useState<string[]>([]);
 
   useEffect(() => {
     async function load() {
@@ -13,6 +48,8 @@ export default function RecommendationsScreen({ navigation }: any) {
         const stored = await AsyncStorage.getItem('result');
         if (stored) {
           setCareer(stored);
+          const list = COURSE_RECOMMENDATIONS[stored] ?? [];
+          setRecommended(list);
         } else {
           setCareer(null);
         }
@@ -22,6 +59,7 @@ export default function RecommendationsScreen({ navigation }: any) {
         setLoading(false);
       }
     }
+
     const unsubscribe = navigation.addListener('focus', load);
     load();
     return unsubscribe;
@@ -35,15 +73,13 @@ export default function RecommendationsScreen({ navigation }: any) {
       contentContainerStyle={styles.content}
       showsVerticalScrollIndicator={false}
     >
-      <Text style={styles.title}>Recomendações</Text>
+      <Text style={styles.title}>Recomendacoes</Text>
       <Text style={styles.subtitle}>
-        Aqui você vê uma sugestão de área com base nas respostas do teste de carreira.
+        Área sugerida com base nas respostas do teste.
       </Text>
 
       <View style={styles.card}>
-        {loading && (
-          <Text style={styles.infoText}>Carregando recomendação...</Text>
-        )}
+        {loading && <Text style={styles.infoText}>Carregando recomendação...</Text>}
 
         {!loading && !hasCareer && (
           <View>
@@ -65,21 +101,29 @@ export default function RecommendationsScreen({ navigation }: any) {
         {hasCareer && (
           <View>
             <Text style={styles.sectionLabel}>Área sugerida</Text>
+
             <View style={styles.badge}>
               <Text style={styles.badgeText}>{career}</Text>
             </View>
 
             <Text style={styles.description}>
-              Essa área foi sugerida com base nas suas preferências sobre tipo de trabalho,
-              interesses e forma de atuar em projetos. Use isso como um ponto de partida
-              para explorar trilhas, microcursos e conteúdos relacionados.
+              Use essa área como ponto de partida para explorar conteúdos,
+              habilidades e microcursos relacionados.
             </Text>
+
+            <Text style={styles.sectionLabel}>Microcursos recomendados</Text>
+
+            {recommended.map((course, index) => (
+              <View key={index} style={styles.recoItem}>
+                <Text style={styles.recoText}>• {course}</Text>
+              </View>
+            ))}
 
             <TouchableOpacity
               style={styles.button}
               onPress={() => navigation.navigate('Microcursos')}
             >
-              <Text style={styles.buttonText}>Ver microcursos relacionados</Text>
+              <Text style={styles.buttonText}>Ver microcursos</Text>
             </TouchableOpacity>
           </View>
         )}
@@ -141,11 +185,19 @@ const styles = StyleSheet.create({
     color: '#4B5563',
     marginBottom: 16,
   },
+  recoItem: {
+    marginBottom: 6,
+  },
+  recoText: {
+    color: theme.colors.cardText,
+    fontSize: 14,
+  },
   button: {
     backgroundColor: theme.colors.action,
     paddingVertical: 12,
     borderRadius: 12,
     alignItems: 'center',
+    marginTop: 16,
   },
   buttonText: {
     color: '#FFFFFF',

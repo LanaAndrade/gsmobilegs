@@ -51,7 +51,7 @@ function validate(draft: { name: string; role: string; skills: string; progress?
   return { ok, errors, normalized };
 }
 
-export default function ProfileScreen() {
+export default function Profile() {
   const navigation = useNavigation();
   const [name, setName] = useState('Lana Andrade');
   const [role, setRole] = useState('DevOps / Mainframe');

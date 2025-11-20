@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-nati
 import { theme } from '../theme';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function HomeScreen({ navigation }: any) {
+export default function Home({ navigation }: any) {
   const [userName, setUserName] = useState('Lana');
   const [progress, setProgress] = useState(0.75);
 
@@ -76,7 +76,7 @@ export default function HomeScreen({ navigation }: any) {
 
         <TouchableOpacity
           style={styles.cta}
-          onPress={() => navigation.navigate('Recomendações')}
+          onPress={() => navigation.navigate('Recomendacoes')}
         >
           <Text style={styles.ctaText}>Ver recomendações</Text>
         </TouchableOpacity>

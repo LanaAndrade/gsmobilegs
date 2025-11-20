@@ -8,13 +8,13 @@ import {
 } from 'react-native';
 import { theme } from '../theme';
 
-export default function AppObjectiveScreen({ navigation }: any) {
+export default function About({ navigation }: any) {
   function goToTest() {
-    navigation.navigate('Teste');
+    navigation.navigate('Home', { screen: 'Teste' })
   }
 
   function goToMicroCourses() {
-    navigation.navigate('Microcursos');
+    navigation.navigate('Home', { screen: 'Microcursos' })
   }
 
   return (
@@ -27,7 +27,7 @@ export default function AppObjectiveScreen({ navigation }: any) {
         <Text style={styles.title}>Objetivo do aplicativo</Text>
 
         <Text style={styles.paragraph}>
-          O CareerMatch+ foi pensado para ajudar você a entender melhor seu
+          O SkillUpPlus2030+ foi pensado para ajudar você a entender melhor seu
           perfil, explorar áreas de interesse e acompanhar o seu desenvolvimento
           profissional de um jeito simples.
         </Text>

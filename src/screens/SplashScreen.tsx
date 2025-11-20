@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, ActivityIndicator } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { theme } from '../theme';
 
-export default function SplashScreen({ navigation }: any) {
+export default function Load({ navigation }: any) {
   useEffect(() => {
     const timer = setTimeout(() => {
       navigation.replace('Login');
@@ -18,7 +18,7 @@ export default function SplashScreen({ navigation }: any) {
       style={styles.container}
     >
       <View style={styles.content}>
-        <Text style={styles.title}>CareerMatch+</Text>
+        <Text style={styles.title}>SkillUpPlus2030+</Text>
         <Text style={styles.subtitle}>Sua jornada profissional começa aqui</Text>
         <ActivityIndicator size="large" color={theme.colors.action} style={styles.loader} />
       </View>
@@ -52,3 +52,4 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
 });
+

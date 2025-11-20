@@ -17,7 +17,7 @@ const USERS_DB = [
   { email: 'teste@email.com', password: 'teste123', name: 'Usuário Teste' },
 ];
 
-export default function LoginScreen({ navigation }: any) {
+export default function Login({ navigation }: any) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -32,7 +32,6 @@ export default function LoginScreen({ navigation }: any) {
   }
 
   const onLogin = async () => {
-    console.log('🚀 onLogin chamado com:', { email, password });
 
     if (!email || !password) {
       Alert.alert('Erro', 'Preencha email e senha.');
@@ -51,13 +50,10 @@ export default function LoginScreen({ navigation }: any) {
 
     setIsLoading(true);
 
-    // se quiser, tira esse setTimeout pra testar mais direto
     setTimeout(async () => {
       const user = USERS_DB.find(
         (u) => u.email === email && u.password === password,
       );
-
-      console.log('🔎 Usuário encontrado?', user);
 
       if (user) {
         try {
@@ -71,9 +67,6 @@ export default function LoginScreen({ navigation }: any) {
             }),
           );
 
-          console.log('✅ Salvou token, indo pra Main...');
-
-          // reset pra limpar o histórico e ir pra Main
           navigation.reset({
             index: 0,
             routes: [{ name: 'Main' }],
@@ -111,7 +104,7 @@ export default function LoginScreen({ navigation }: any) {
           source={{ uri: 'https://via.placeholder.com/96' }}
           style={styles.logo}
         />
-        <Text style={styles.title}>CareerMatch+</Text>
+        <Text style={styles.title}>SkillUpPlus2030+</Text>
         <Text style={styles.subtitle}>
           Faça login para continuar sua jornada profissional.
         </Text>
