@@ -95,7 +95,7 @@ O SkillUpPlus 2030+ é um aplicativo móvel desenvolvido em React Native com o o
 ## Estrutura do Projeto
 
 src/
-├── screens/          # Telas do aplicativo
+├── screens/
 │   ├── Login.tsx
 │   ├── Home.tsx
 │   ├── Profile.tsx
@@ -104,12 +104,12 @@ src/
 │   ├── Recs.tsx
 │   ├── Progress.tsx
 │   ├── About.tsx
-│   ├── ValidateProfile.tsx
+│   ├── 
 │   └── SplashScreen.tsx
-├── navigation/       # Configuração de navegação
+├── navigation/
 │   ├── RootNavigation.tsx
 │   └── CustomDrawerContent.tsx
-└── theme/           # Configurações de tema
+└── theme/
     ├── theme.ts
     └── colors.ts
     
